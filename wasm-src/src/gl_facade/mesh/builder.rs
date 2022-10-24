@@ -3,6 +3,7 @@ use super::Mesh;
 use super::state::{self, MeshState};
 use wasm_bindgen::JsValue;
 use web_sys::{WebGlShader, WebGlRenderingContext as GL};
+
 pub struct MeshBuilder<S: MeshState> {
     gl: GL,
     state: Box<S>
