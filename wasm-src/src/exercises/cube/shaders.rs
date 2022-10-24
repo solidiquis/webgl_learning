@@ -10,10 +10,10 @@ void main() {
 "#;
 
 pub const FRAGMENT_SHADER: &'static str = r#"
-attribute vec3 position;
-varying vec4 vcolor;
+precision mediump float;
+varying vec3 vcolor;
 
 void main() {
-    gl_FragColor = color;
+    gl_FragColor = vec4(vcolor, 1.0);
 }
 "#;
