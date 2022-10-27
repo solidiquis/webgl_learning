@@ -1,14 +1,22 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Cube } from "wasm-src";
 
+const FPS_THROTTLE = 1000.0 / 60;
+
 export default () => {
-  const cube = useRef<Cube | null>(null);
-  
   useEffect(() => {
-    console.log("cube")
     const c = new Cube("gl-playground");
-    cube.current = c;
-    c.render();
+
+    const initTime = Date.now();
+
+    const animationID = setInterval(() => {
+      window.requestAnimationFrame(() => {
+        const elapsedTime = (Date.now() - initTime) / 10;
+        c.render(800, 800, elapsedTime, 0);
+      })
+    }, FPS_THROTTLE);
+
+    return () => clearInterval(animationID);
   }, []);
 
   return (

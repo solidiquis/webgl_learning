@@ -58,7 +58,7 @@ impl Triangle {
             .link_program()?
             .finalize();
 
-        let gl = mesh.use_gl_context();
+        let gl = mesh.get_gl_context();
 
         let vertex_buffer = gl.create_buffer().ok_or(JsValue::from_str("Failed to create position buffer."))?;
 
@@ -72,7 +72,7 @@ impl Triangle {
     }
 
     pub fn render(&self) -> Result<(), JsValue> {
-        let gl = self.use_gl_context();
+        let gl = self.get_gl_context();
 
         let object = gl.canvas().ok_or(JsValue::from_str("Failed to get canvas from WebGlRenderingContext"))?;
         let canvas = object.dyn_into::<HtmlCanvasElement>()?;
@@ -81,7 +81,7 @@ impl Triangle {
         gl.clear_color(0.0, 0.0, 0.0, 0.0);
         gl.clear(GL::COLOR_BUFFER_BIT);
 
-        let program = self.use_program();
+        let program = self.get_program();
 
         gl.use_program(Some(program));
 
@@ -130,11 +130,11 @@ impl Triangle {
         &self.vertex_buffer
     }
 
-    fn use_gl_context(&self) -> &GL {
-        self.mesh.use_gl_context()
+    fn get_gl_context(&self) -> &GL {
+        self.mesh.get_gl_context()
     }
 
-    fn use_program(&self) -> &WebGlProgram {
-        &self.mesh.use_program()
+    fn get_program(&self) -> &WebGlProgram {
+        &self.mesh.get_program()
     }
 }
